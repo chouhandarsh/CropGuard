@@ -1,0 +1,8 @@
+FROM tensorflow/tensorflow:latest
+
+WORKDIR /app
+
+COPY models/1.keras /app/1.keras
+COPY convert_model.py /app/
+
+RUN python convert_model.py

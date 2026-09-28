@@ -1,0 +1,22 @@
+version: "3.8"
+
+services:
+  model-converter:
+    build:
+      context: .
+      dockerfile: Dockerfile.convert
+    volumes:
+      - ./models:/app/models
+
+  tf-serving:
+    image: tensorflow/serving:latest
+    ports:
+      - "8500:8500"
+      - "8501:8501"
+    environment:
+      - MODEL_NAME=potato_disease
+      - MODEL_BASE_PATH=/models/serving
+    volumes:
+      - ./models/serving:/models/serving
+    depends_on:
+      - model-converter
